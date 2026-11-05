@@ -6,6 +6,7 @@ import { computeTotals, summarizeHarnesses } from './analyze/totals.js';
 import { assignVerdicts } from './analyze/verdict.js';
 import { computeWeights, countTokens } from './analyze/weight.js';
 import { buildInventory } from './discover/inventory.js';
+import { listManifests } from './apply/manifest.js';
 import { appendSnapshot, computeDelta, readHistory, snapshotOf } from './state/history.js';
 
 export async function scan(ctx: ScanContext, opts?: { writeHistory?: boolean }): Promise<ScanResult> {
@@ -55,8 +56,15 @@ export async function scan(ctx: ScanContext, opts?: { writeHistory?: boolean }):
     overlapGroups,
     totals,
     previous: computeDelta(history.at(-1), snapshot),
-    lastPrune: null,
+    lastPrune: await lastCompletedPrune(ctx),
   };
   if (opts?.writeHistory !== false) await appendSnapshot(ctx, snapshot);
   return result;
+}
+
+async function lastCompletedPrune(ctx: ScanContext): Promise<ScanResult['lastPrune']> {
+  const manifests = await listManifests(ctx);
+  const done = manifests.find((manifest) => manifest.status === 'complete');
+  if (!done) return null;
+  return { runId: done.runId, at: done.createdAt, before: done.stackWeightBefore, after: done.stackWeightAfter };
 }

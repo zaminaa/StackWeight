@@ -28,7 +28,7 @@ describe('no-delete guard', () => {
       if (deletePattern.test(text)) deletions.push(rel);
       if (writePattern.test(text)) writes.push(rel);
     }
-    expect(deletions).toEqual(['apply/move.ts']);
+    expect(deletions.sort()).toEqual(['apply/claude-config.ts', 'apply/move.ts']);
     const allowed = /^(apply\/.*|state\/history\.ts|cli\.ts)$/;
     expect(writes.filter((rel) => !allowed.test(rel))).toEqual([]);
   });

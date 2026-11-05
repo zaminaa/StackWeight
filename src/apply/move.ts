@@ -35,3 +35,7 @@ export async function movePath(src: string, dest: string, f: MoveFs = defaultFs)
   }
   if (await hashTree(dest) !== before) throw new Error('move verification failed');
 }
+
+export async function removeFile(target: string, f: MoveFs = defaultFs): Promise<void> {
+  await f.rm(target, { force: true });
+}
