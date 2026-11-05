@@ -103,8 +103,8 @@ async function mergedEnabled(ctx: ScanContext): Promise<Record<string, boolean>>
   return enabled;
 }
 
-async function readPluginDir(dir: string): Promise<Awaited<ReturnType<typeof readSkillDir>>[]> {
-  const out: Awaited<ReturnType<typeof readSkillDir>>[] = [];
+async function readPluginDir(dir: string): Promise<NonNullable<Awaited<ReturnType<typeof readSkillDir>>>[]> {
+  const out: NonNullable<Awaited<ReturnType<typeof readSkillDir>>>[] = [];
   const skills = path.join(dir, 'skills');
   if (await exists(skills)) {
     for (const sub of await listSubdirs(skills)) {
