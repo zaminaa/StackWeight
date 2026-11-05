@@ -8,7 +8,9 @@ npx stackweight
 
 No config. No account. No network calls. Nothing leaves your machine.
 
-![StackWeight demo](demo/stackweight.gif)
+![StackWeight receipt](docs/card.png)
+
+The card above is the demo fixture (≈5.7k tokens, 85% dead). It never shows skill names or paths. An animated GIF can be recorded later from `demo/demo.tape`.
 
 ## Why
 
