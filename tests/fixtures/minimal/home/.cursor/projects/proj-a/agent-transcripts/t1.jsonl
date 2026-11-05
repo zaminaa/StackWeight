@@ -1,0 +1,4 @@
+{"role":"user","message":{"content":[{"type":"text","text":"<available_skills><agent_skill fullPath=\"{{HOME}}/.cursor/skills/vue-patterns/SKILL.md\">Vue</agent_skill></available_skills> please help"}]}}
+{"role":"assistant","message":{"content":[{"type":"tool_use","name":"Read","input":{"path":"{{HOME}}\\.cursor\\skills\\react-patterns\\SKILL.md"}}]}}
+{"role":"assistant","message":{"content":[{"type":"tool_use","name":"Read","input":{"path":"{{HOME}}/.cursor/plugins/cache/mkt/superpowers/abc222/skills/brainstorming/SKILL.md"}}]}}
+{"role":"assistant","message":{"content":[{"type":"text","text":"done"}]}}

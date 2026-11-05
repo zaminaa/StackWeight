@@ -1,0 +1,8 @@
+{
+  "version": 2,
+  "plugins": {
+    "docs-kit@acme": [{ "scope": "user", "installPath": "{{HOME}}/.claude/plugins/cache/acme/docs-kit/1.0.0", "version": "1.0.0", "installedAt": "2026-08-01T00:00:00.000Z", "lastUpdated": "2026-08-01T00:00:00.000Z" }],
+    "lint-kit@acme": [{ "scope": "user", "installPath": "{{HOME}}/.claude/plugins/cache/acme/lint-kit/2.0.0", "version": "2.0.0", "installedAt": "2026-08-01T00:00:00.000Z", "lastUpdated": "2026-08-01T00:00:00.000Z" }],
+    "old-kit@acme": [{ "scope": "user", "installPath": "{{HOME}}/.claude/plugins/cache/acme/old-kit/1.0.0", "version": "1.0.0", "installedAt": "2026-08-01T00:00:00.000Z", "lastUpdated": "2026-08-01T00:00:00.000Z" }]
+  }
+}

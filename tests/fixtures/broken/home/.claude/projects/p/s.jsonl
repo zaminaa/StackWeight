@@ -1,0 +1,3 @@
+garbage
+{"type":"assistant","message":{"id":"x","content":[{"type":"tool_use","name":"Skill"
+{"type":"assistant","timestamp":"2026-10-30T00:00:00.000Z","message":{"id":"y","content":[{"type":"tool_use","name":"Skill"}]}}
