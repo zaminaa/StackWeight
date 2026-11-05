@@ -1,5 +1,7 @@
 import { spawn } from 'node:child_process';
 import { readFileSync } from 'node:fs';
+import fs from 'node:fs/promises';
+import path from 'node:path';
 import { createInterface } from 'node:readline/promises';
 import { parseArgs } from 'node:util';
 import { executePrune, planPrune } from './apply/prune.js';
@@ -7,6 +9,7 @@ import { listManifests } from './apply/manifest.js';
 import { restoreRun } from './apply/restore.js';
 import { createContext } from './context.js';
 import { renderPruneOutcome, renderPrunePlan, renderRestoreOutcome, renderSources, renderSummary } from './render/terminal.js';
+import { renderHtml } from './report/html.js';
 import { scan } from './scan.js';
 import { fmtDate, fmtTokens } from './util/format.js';
 
@@ -124,6 +127,13 @@ async function dispatch(
   if (values.json) {
     process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
   } else {
+    const reportPath = typeof values.out === 'string'
+      ? values.out
+      : path.join(ctx.stateDir, 'reports', `stackweight-${ctx.now.toISOString().slice(0, 10)}.html`);
+    await fs.mkdir(path.dirname(reportPath), { recursive: true });
+    await fs.writeFile(reportPath, renderHtml(result));
+    opts.reportPath = reportPath;
+    if (values.open === true) openReport(reportPath);
     process.stdout.write(renderSummary(result, opts));
   }
   if (typeof values.budget === 'string') {
