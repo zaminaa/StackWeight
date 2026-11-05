@@ -10,7 +10,7 @@ No config. No account. No network calls. Nothing leaves your machine.
 
 ![StackWeight receipt](docs/card.png)
 
-The card above is the demo fixture (≈5.7k tokens, 85% dead). It never shows skill names or paths. An animated GIF can be recorded later from `demo/demo.tape`.
+The card is the real 1200×630 share card, rendered from the demo fixture. It is not a scan of a real machine, and it never shows skill names or paths. The animated GIF is recorded from `demo/demo.tape`.
 
 ## Why
 
@@ -74,3 +74,5 @@ npm pack stackweight && npm install -g ./stackweight-*.tgz   # on a connected ma
 ## License
 
 MIT
+
+Rewind: `npx stackweight restore` undoes the last prune, exactly. One item comes back with `npx stackweight restore --item <name>`. Nothing was deleted.

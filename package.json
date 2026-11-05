@@ -31,7 +31,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run --exclude tests/e2e/**",
+    "test": "vitest run --exclude \"tests/e2e/**\"",
     "e2e": "npm run build && vitest run tests/e2e",
     "demo": "tsx scripts/demo-home.ts",
     "prepublishOnly": "npm run typecheck && npm test && npm run e2e"
