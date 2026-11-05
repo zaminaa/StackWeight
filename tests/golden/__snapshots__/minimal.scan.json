@@ -41,8 +41,8 @@
       "label": "Cursor",
       "detected": true,
       "itemCount": 6,
-      "weight": 352,
-      "deadWeight": 111,
+      "weight": 228,
+      "deadWeight": 71,
       "usage": {
         "harness": "cursor",
         "status": "ok",
@@ -68,8 +68,8 @@
       "label": "Codex",
       "detected": true,
       "itemCount": 4,
-      "weight": 200,
-      "deadWeight": 105,
+      "weight": 136,
+      "deadWeight": 73,
       "usage": {
         "harness": "codex",
         "status": "ok",
@@ -104,7 +104,7 @@
           }
         ],
         "text": "### Available skills\n- imagegen: Generate or edit raster images. (file: <HOME>/.codex/skills/.system/imagegen/SKILL.md)\n- sql-helper: Write and optimize PostgreSQL queries and explain query plans. (file: <HOME>/.codex/skills/sql-helper/SKILL.md)\n- csv-cleaner: Clean messy CSV exports: fix encodings, delimiters and header rows. (file: <HOME>/.codex/skills/csv-cleaner/SKILL.md)\n- shared-notes: Keep running meeting notes in a shared markdown file. (file: <HOME>/.agents/skills/shared-notes/SKILL.md)",
-        "tokens": 204
+        "tokens": 140
       },
       "notes": [
         "found ~/.codex/skills: 2 items",
@@ -155,10 +155,10 @@
       "evidence": "observed",
       "plugin": null,
       "weight": {
-        "cursor": 53,
-        "codex": 49
+        "cursor": 33,
+        "codex": 33
       },
-      "weightTotal": 102,
+      "weightTotal": 66,
       "usage": {
         "status": "known",
         "count": 0,
@@ -197,9 +197,9 @@
         "scope": "user"
       },
       "weight": {
-        "cursor": 66
+        "cursor": 44
       },
-      "weightTotal": 66,
+      "weightTotal": 44,
       "usage": {
         "status": "known",
         "count": 0,
@@ -238,9 +238,9 @@
         "scope": "user"
       },
       "weight": {
-        "cursor": 65
+        "cursor": 43
       },
-      "weightTotal": 65,
+      "weightTotal": 43,
       "usage": {
         "status": "known",
         "count": 1,
@@ -253,6 +253,40 @@
       "verdict": "KEEP",
       "reason": "Used 1× in the last 30 days (last Oct 25).",
       "action": "none"
+    },
+    {
+      "id": "17e45b8c85bc",
+      "kind": "skill",
+      "name": "csv-cleaner",
+      "description": "Clean messy CSV exports: fix encodings, delimiters and header rows.",
+      "entryFile": "<HOME>/.codex/skills/csv-cleaner/SKILL.md",
+      "parkPath": "<HOME>/.codex/skills/csv-cleaner",
+      "installedAt": "2026-08-01T00:00:00.000Z",
+      "contentHash": "f0918324c9da2bf5e51642c09eb83080b9e973613d75cb4d041781d2269dc393",
+      "warnings": [],
+      "qualifiedName": "csv-cleaner",
+      "scope": "user",
+      "loadedBy": [
+        "codex"
+      ],
+      "evidence": "documented",
+      "plugin": null,
+      "weight": {
+        "codex": 40
+      },
+      "weightTotal": 40,
+      "usage": {
+        "status": "known",
+        "count": 0,
+        "lastUsed": null,
+        "reason": null
+      },
+      "flags": [],
+      "overlapGroupId": null,
+      "duplicateOf": [],
+      "verdict": "ARCHIVE",
+      "reason": "Unused for 30 days; never seen in your logs.",
+      "action": "move"
     },
     {
       "id": "f25ee0c5a9fc",
@@ -272,9 +306,9 @@
       "evidence": "documented",
       "plugin": null,
       "weight": {
-        "cursor": 58
+        "cursor": 38
       },
-      "weightTotal": 58,
+      "weightTotal": 38,
       "usage": {
         "status": "known",
         "count": 1,
@@ -306,9 +340,9 @@
       "evidence": "documented",
       "plugin": null,
       "weight": {
-        "cursor": 58
+        "cursor": 38
       },
-      "weightTotal": 58,
+      "weightTotal": 38,
       "usage": {
         "status": "known",
         "count": 0,
@@ -321,74 +355,6 @@
       "verdict": "ARCHIVE",
       "reason": "Unused for 30 days; never seen in your logs.",
       "action": "move"
-    },
-    {
-      "id": "17e45b8c85bc",
-      "kind": "skill",
-      "name": "csv-cleaner",
-      "description": "Clean messy CSV exports: fix encodings, delimiters and header rows.",
-      "entryFile": "<HOME>/.codex/skills/csv-cleaner/SKILL.md",
-      "parkPath": "<HOME>/.codex/skills/csv-cleaner",
-      "installedAt": "2026-08-01T00:00:00.000Z",
-      "contentHash": "f0918324c9da2bf5e51642c09eb83080b9e973613d75cb4d041781d2269dc393",
-      "warnings": [],
-      "qualifiedName": "csv-cleaner",
-      "scope": "user",
-      "loadedBy": [
-        "codex"
-      ],
-      "evidence": "documented",
-      "plugin": null,
-      "weight": {
-        "codex": 56
-      },
-      "weightTotal": 56,
-      "usage": {
-        "status": "known",
-        "count": 0,
-        "lastUsed": null,
-        "reason": null
-      },
-      "flags": [],
-      "overlapGroupId": null,
-      "duplicateOf": [],
-      "verdict": "ARCHIVE",
-      "reason": "Unused for 30 days; never seen in your logs.",
-      "action": "move"
-    },
-    {
-      "id": "88b890773179",
-      "kind": "skill",
-      "name": "create-rule",
-      "description": "Create Cursor rules for persistent AI guidance.",
-      "entryFile": "<HOME>/.cursor/skills-cursor/create-rule/SKILL.md",
-      "parkPath": "<HOME>/.cursor/skills-cursor/create-rule",
-      "installedAt": "2026-08-01T00:00:00.000Z",
-      "contentHash": "cf3e1911969b5e188609af1514e2078016b83f89286269eb16b7041f177d2bf7",
-      "warnings": [],
-      "qualifiedName": "create-rule",
-      "scope": "builtin",
-      "loadedBy": [
-        "cursor"
-      ],
-      "evidence": "observed",
-      "plugin": null,
-      "weight": {
-        "cursor": 52
-      },
-      "weightTotal": 52,
-      "usage": {
-        "status": "known",
-        "count": 0,
-        "lastUsed": null,
-        "reason": null
-      },
-      "flags": [],
-      "overlapGroupId": null,
-      "duplicateOf": [],
-      "verdict": "KEEP",
-      "reason": "Built into Cursor; managed by the vendor.",
-      "action": "none"
     },
     {
       "id": "28b575cfcd7b",
@@ -408,9 +374,9 @@
       "evidence": "documented",
       "plugin": null,
       "weight": {
-        "codex": 49
+        "codex": 33
       },
-      "weightTotal": 49,
+      "weightTotal": 33,
       "usage": {
         "status": "known",
         "count": 1,
@@ -425,26 +391,26 @@
       "action": "none"
     },
     {
-      "id": "9f69fdc0985f",
+      "id": "88b890773179",
       "kind": "skill",
-      "name": "imagegen",
-      "description": "Generate or edit raster images.",
-      "entryFile": "<HOME>/.codex/skills/.system/imagegen/SKILL.md",
-      "parkPath": "<HOME>/.codex/skills/.system/imagegen",
+      "name": "create-rule",
+      "description": "Create Cursor rules for persistent AI guidance.",
+      "entryFile": "<HOME>/.cursor/skills-cursor/create-rule/SKILL.md",
+      "parkPath": "<HOME>/.cursor/skills-cursor/create-rule",
       "installedAt": "2026-08-01T00:00:00.000Z",
-      "contentHash": "ed2a50c09c8e11dc1c9f03864fc4dfea89f7ea34c2d21786e8ed46f832745c3d",
+      "contentHash": "cf3e1911969b5e188609af1514e2078016b83f89286269eb16b7041f177d2bf7",
       "warnings": [],
-      "qualifiedName": "imagegen",
+      "qualifiedName": "create-rule",
       "scope": "builtin",
       "loadedBy": [
-        "codex"
+        "cursor"
       ],
       "evidence": "observed",
       "plugin": null,
       "weight": {
-        "codex": 46
+        "cursor": 32
       },
-      "weightTotal": 46,
+      "weightTotal": 32,
       "usage": {
         "status": "known",
         "count": 0,
@@ -455,7 +421,7 @@
       "overlapGroupId": null,
       "duplicateOf": [],
       "verdict": "KEEP",
-      "reason": "Built into Codex; managed by the vendor.",
+      "reason": "Built into Cursor; managed by the vendor.",
       "action": "none"
     },
     {
@@ -558,6 +524,40 @@
       "duplicateOf": [],
       "verdict": "KEEP",
       "reason": "Usage unknown (No OpenCode database found at ~/.local/share/opencode/opencode.db); StackWeight never prunes what it can't see.",
+      "action": "none"
+    },
+    {
+      "id": "9f69fdc0985f",
+      "kind": "skill",
+      "name": "imagegen",
+      "description": "Generate or edit raster images.",
+      "entryFile": "<HOME>/.codex/skills/.system/imagegen/SKILL.md",
+      "parkPath": "<HOME>/.codex/skills/.system/imagegen",
+      "installedAt": "2026-08-01T00:00:00.000Z",
+      "contentHash": "ed2a50c09c8e11dc1c9f03864fc4dfea89f7ea34c2d21786e8ed46f832745c3d",
+      "warnings": [],
+      "qualifiedName": "imagegen",
+      "scope": "builtin",
+      "loadedBy": [
+        "codex"
+      ],
+      "evidence": "observed",
+      "plugin": null,
+      "weight": {
+        "codex": 30
+      },
+      "weightTotal": 30,
+      "usage": {
+        "status": "known",
+        "count": 0,
+        "lastUsed": null,
+        "reason": null
+      },
+      "flags": [],
+      "overlapGroupId": null,
+      "duplicateOf": [],
+      "verdict": "KEEP",
+      "reason": "Built into Codex; managed by the vendor.",
       "action": "none"
     },
     {
@@ -1033,10 +1033,10 @@
     }
   ],
   "totals": {
-    "stackWeight": 837,
-    "deadWeight": 340,
+    "stackWeight": 649,
+    "deadWeight": 268,
     "deadPct": 41,
-    "afterPruneWeight": 497,
+    "afterPruneWeight": 381,
     "itemCount": 24,
     "usedCount": 7,
     "unknownCount": 2,
@@ -1048,7 +1048,7 @@
     },
     "flaggedCount": 2,
     "overlapGroupCount": 1,
-    "deadTokensResent": 1411
+    "deadTokensResent": 1227
   },
   "previous": null,
   "lastPrune": null

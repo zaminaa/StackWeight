@@ -16,7 +16,7 @@ describe('minimal golden', () => {
       toolVersion: '0.0.0-test',
     });
     const result = await scan(ctx, { writeHistory: false });
-    expect(JSON.stringify(normalizeResult(result, home), null, 2)).toMatchFileSnapshot('./__snapshots__/minimal.scan.json');
+    await expect(JSON.stringify(normalizeResult(result, home), null, 2)).toMatchFileSnapshot('./__snapshots__/minimal.scan.json');
   });
 
   it('scans the bloated fixture in under 3 seconds', async () => {

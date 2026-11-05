@@ -4,6 +4,7 @@ import { createContext } from '../../src/context.js';
 import { renderSummary } from '../../src/render/terminal.js';
 import { scan } from '../../src/scan.js';
 import { FIXTURE_NOW, buildFixture, tempDir } from '../helpers/fixture.js';
+import { normalizeResult } from './normalize.js';
 
 describe('terminal summary', () => {
   it('matches the plain summary and can paint color', async () => {
@@ -15,14 +16,15 @@ describe('terminal summary', () => {
       env: {},
       toolVersion: '0.1.0',
     });
-    const result = await scan(ctx, { writeHistory: false });
+    const result = normalizeResult(await scan(ctx, { writeHistory: false }), home);
     result.durationMs = 0;
-    const plain = renderSummary(result, { color: false, reportPath: null, home });
+    result.tool.version = '0.1.0';
+    const plain = renderSummary(result, { color: false, reportPath: null, home: '<HOME>' });
     expect(plain).toContain('Stack weight');
     expect(plain).toContain('Dead weight');
     expect(plain).toContain('Heaviest dead weight');
     expect(plain).toContain('npx stackweight prune');
-    expect(plain).toMatchFileSnapshot('./__snapshots__/minimal.terminal.txt');
-    expect(renderSummary(result, { color: true, reportPath: null, home })).toContain('\x1b[');
+    await expect(plain).toMatchFileSnapshot('./__snapshots__/minimal.terminal.txt');
+    expect(renderSummary(result, { color: true, reportPath: null, home: '<HOME>' })).toContain('\x1b[');
   });
 });
