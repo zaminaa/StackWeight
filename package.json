@@ -1,0 +1,49 @@
+{
+  "name": "stackweight",
+  "version": "0.1.0",
+  "description": "The bundle-size report for your agent stack: weigh every skill and plugin across Claude Code, Cursor, Codex and OpenCode, see what's dead, prune it safely.",
+  "type": "module",
+  "bin": {
+    "stackweight": "bin/stackweight.js"
+  },
+  "files": [
+    "bin",
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=22.13"
+  },
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "cursor",
+    "codex",
+    "opencode",
+    "agent-skills",
+    "skills",
+    "plugins",
+    "tokens",
+    "context",
+    "cli"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --exclude tests/e2e/**",
+    "e2e": "npm run build && vitest run tests/e2e",
+    "demo": "tsx scripts/demo-home.ts",
+    "prepublishOnly": "npm run typecheck && npm test && npm run e2e"
+  },
+  "dependencies": {
+    "gpt-tokenizer": "^4.1.0",
+    "yaml": "^2.9.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.12"
+  }
+}
