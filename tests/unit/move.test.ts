@@ -50,8 +50,9 @@ describe('movePath', () => {
     const fsOverride: MoveFs = {
       rename: async () => { throw exdev; },
       cp: async (_source, target) => {
-        await fs.mkdir(target);
-        await fs.writeFile(path.join(target, 'a.txt'), 'different');
+        const dest = String(target);
+        await fs.mkdir(dest);
+        await fs.writeFile(path.join(dest, 'a.txt'), 'different');
       },
       rm: fs.rm,
     };

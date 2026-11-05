@@ -1,5 +1,5 @@
 import path from 'node:path';
-import { HARNESS_IDS, HARNESS_LABELS, type HarnessUsage, type ItemUsage, type ScanContext, type ScannedItem, type UsageEvent } from '../model.js';
+import { HARNESS_IDS, HARNESS_LABELS, type HarnessId, type HarnessUsage, type ItemUsage, type ScanContext, type ScannedItem, type UsageEvent } from '../model.js';
 import { daysBetween } from '../util/format.js';
 import { isInside, samePath } from '../util/paths.js';
 import { inWindow } from '../harness/shared.js';
