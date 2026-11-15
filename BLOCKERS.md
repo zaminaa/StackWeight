@@ -21,13 +21,9 @@ Two findings came out of reading every reason on that machine:
 
 ## Demo GIF
 
-`demo/stackweight.gif` is still a 1×1 placeholder. VHS is not installed on this machine, so `demo/demo.tape` has not been recorded.
+`demo/stackweight.gif` is a real 1200×720 recording of the bloated fixture with the clock at 2026-11-06, embedded from the README. The receipt in the GIF matches the changelog: stack weight ≈ 5.7k across 3 agents, dead weight ≈ 4.8k (85%), ≈ 4.97M tokens re-sent in 30 days, and one prune from 5.7k to 1.5k.
 
-A recording attempt on 2026-11-15 got as far as validating the tape and then hung. Notes for the next attempt:
-
-- Prebuilt binaries were downloaded to `%TEMP%\vhs-tools` and SHA256-verified: `vhs_0.12.1_Windows_x86_64\vhs.exe` and `ttyd.exe` (ttyd 1.7.7). ffmpeg is already on PATH via WinGet.
-- Run with Git Bash first on PATH, because `bash` resolves to WSL's `C:\WINDOWS\system32\bash.exe` otherwise: `PATH="C:\Program Files\Git\bin;%TEMP%\vhs-tools\vhs_0.12.1_Windows_x86_64;%TEMP%\vhs-tools;%PATH%"`.
-- vhs 0.12.1 hung after echoing the tape directives: no ttyd child process and no headless browser were ever spawned, so it died during browser setup (go-rod). It ran for ten minutes without another line of output. Alternative: record inside WSL Ubuntu (installed here) or drive ttyd + a screencast recorder directly.
+vhs 0.12.1 still hangs on this Windows machine during browser setup (go-rod): Chrome starts, and ttyd never does. The same fixture under WSL does not match those numbers, because Cursor and Codex listings include absolute paths. This GIF was captured from ttyd 1.7.7 serving Git Bash, screenshotted at 1200×720.
 
 ## npm publish
 

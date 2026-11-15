@@ -10,7 +10,9 @@ No config. No account. No network calls. Nothing leaves your machine.
 
 ![StackWeight receipt](docs/card.png)
 
-The card is the real 1200×630 share card, rendered from a scan of the maintainer's own machine: four agents, 112 items, one command, no config. It never shows skill names or paths. The animated GIF is recorded from `demo/demo.tape`.
+The card is the real 1200×630 share card, rendered from a scan of the maintainer's own machine: four agents, 112 items, one command, no config. It never shows skill names or paths. The animated GIF is the bloated demo fixture from `demo/demo.tape` (5.7k → 1.5k), not that machine.
+
+![StackWeight demo](demo/stackweight.gif)
 
 ## Why
 
