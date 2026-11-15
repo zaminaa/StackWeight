@@ -10,16 +10,16 @@ No config. No account. No network calls. Nothing leaves your machine.
 
 ![StackWeight receipt](docs/card.png)
 
-The card is the real 1200×630 share card, rendered from the demo fixture. It is not a scan of a real machine, and it never shows skill names or paths. The animated GIF is recorded from `demo/demo.tape`.
+The card is the real 1200×630 share card, rendered from a scan of the maintainer's own machine: four agents, 112 items, one command, no config. It never shows skill names or paths. The animated GIF is recorded from `demo/demo.tape`.
 
 ## Why
 
 Every installed skill puts its name and description into your agent's context on **every message**, used or not. Install fifty, use five, and you pay for fifty, on every turn and in every session. StackWeight shows you the bill.
 
 ```
-Stack weight   12.4k tokens of always-on context, combined across 3 agents (≈)
-Dead weight    10.3k tokens · 83% · unused for 30 days, safe to prune
-Re-sent in the last 30 days: ≈ 31M tokens of dead weight
+Stack weight   9.6k tokens of always-on context, combined across 4 agents (≈)
+Dead weight    5.4k tokens · 57% · unused for 30 days, safe to prune
+Re-sent in the last 30 days: ≈ 17.19M tokens of dead weight
 ```
 
 ## What you get for every item
