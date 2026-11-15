@@ -22,3 +22,13 @@ Two findings came out of reading every reason on that machine:
 ## Demo GIF
 
 `demo/stackweight.gif` is still a 1×1 placeholder. VHS is not installed on this machine, so `demo/demo.tape` has not been recorded.
+
+A recording attempt on 2026-11-15 got as far as validating the tape and then hung. Notes for the next attempt:
+
+- Prebuilt binaries were downloaded to `%TEMP%\vhs-tools` and SHA256-verified: `vhs_0.12.1_Windows_x86_64\vhs.exe` and `ttyd.exe` (ttyd 1.7.7). ffmpeg is already on PATH via WinGet.
+- Run with Git Bash first on PATH, because `bash` resolves to WSL's `C:\WINDOWS\system32\bash.exe` otherwise: `PATH="C:\Program Files\Git\bin;%TEMP%\vhs-tools\vhs_0.12.1_Windows_x86_64;%TEMP%\vhs-tools;%PATH%"`.
+- vhs 0.12.1 hung after echoing the tape directives: no ttyd child process and no headless browser were ever spawned, so it died during browser setup (go-rod). It ran for ten minutes without another line of output. Alternative: record inside WSL Ubuntu (installed here) or drive ttyd + a screencast recorder directly.
+
+## npm publish
+
+The registry auto-staged the first publish from a brand-new account: `npm view` returned a `0.0.0-stage` placeholder and `npm stage list` reported empty even while the placeholder existed. Once the staged version was approved on npmjs.com (Staged Packages tab, behind 2FA), the same tarball went live as `0.1.0` unchanged — no republish needed. A granular access token with the "bypass 2FA for API and CI" scope can publish, but it does not replace the interactive 2FA prompt for approving a staged package.
