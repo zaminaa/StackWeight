@@ -1,3 +1,5 @@
+![StackWeight](docs/assets/logo.svg)
+
 [![npm version](https://img.shields.io/npm/v/stackweight)](https://www.npmjs.com/package/stackweight)
 [![CI](https://img.shields.io/github/actions/workflow/status/zaminaa/StackWeight/ci.yml?branch=main)](https://github.com/zaminaa/StackWeight/actions/workflows/ci.yml)
 [![license](https://img.shields.io/github/license/zaminaa/StackWeight)](LICENSE)

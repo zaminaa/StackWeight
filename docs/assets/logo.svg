@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360">
+  <rect width="1200" height="360" rx="32" fill="#0B0E14"/>
+  <rect x="80" y="108" width="340" height="40" rx="20" fill="#2EDD9A"/>
+  <rect x="80" y="170" width="260" height="40" rx="20" fill="#FF5C5C"/>
+  <rect x="80" y="232" width="180" height="40" rx="20" fill="#3A4356"/>
+  <text x="480" y="192" font-family="Noto Sans, DejaVu Sans, sans-serif" font-size="96" font-weight="700" fill="#FFFFFF">Stack<tspan fill="#2EDD9A">Weight</tspan></text>
+  <text x="482" y="262" font-family="Noto Sans, DejaVu Sans, sans-serif" font-size="36" fill="#8B94A7">weigh your agent stack</text>
+</svg>
