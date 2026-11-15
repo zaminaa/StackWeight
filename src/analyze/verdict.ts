@@ -64,7 +64,8 @@ export function assignVerdicts(
       }));
       continue;
     }
-    const last = item.usage.lastUsed ? `; last used ${fmtDate(item.usage.lastUsed)}` : '; never seen in your logs';
+    // Only the window is mined, so "never seen in your logs" would be a claim we never checked.
+    const last = item.usage.lastUsed ? `; last used ${fmtDate(item.usage.lastUsed)}` : '; no use recorded in that window';
     out.set(item.id, withFlags(item, {
       verdict: 'ARCHIVE',
       reason: `Unused for ${ctx.windowDays} days${last}.`,

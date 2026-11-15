@@ -15,9 +15,9 @@ StackWeight 0.1.0 · scanned 4 agents in 0.0s · local only, nothing uploaded
   Health     2 items have patterns worth a look
 
   Heaviest dead weight
-    1. shared-notes                         66  ARCHIVE  Unused for 30 days; never seen in your logs.
-    2. csv-cleaner                          40  ARCHIVE  Unused for 30 days; never seen in your logs.
-    3. vue-patterns                         38  ARCHIVE  Unused for 30 days; never seen in your logs.
+    1. shared-notes                         66  ARCHIVE  Unused for 30 days; no use recorded in that window.
+    2. csv-cleaner                          40  ARCHIVE  Unused for 30 days; no use recorded in that window.
+    3. vue-patterns                         38  ARCHIVE  Unused for 30 days; no use recorded in that window.
     4. git-commit-writer                    31  MERGE    Overlaps with commit-helper (85% similar); keep that one.
     5. brand-voice                          28  ARCHIVE  Unused for 30 days; last used Sep 1.
   Prune    npx stackweight prune      649 → 381   (undo anytime: npx stackweight restore)

@@ -72,4 +72,12 @@ describe('assignVerdicts', () => {
     expect(verdicts.get('dead')?.reason).toContain('Also flagged: downloads and runs remote code');
     expect(verdicts.get('flagged-used')?.verdict).toBe('KEEP');
   });
+
+  it('never claims to have seen logs outside the window it mined', () => {
+    const items = [item({ id: 'd', name: 'unused' })];
+    const verdicts = assignVerdicts(items, [], ctx);
+    const reason = verdicts.get('d')?.reason ?? '';
+    expect(reason).toContain('no use recorded in that window');
+    expect(reason).not.toContain('never seen');
+  });
 });

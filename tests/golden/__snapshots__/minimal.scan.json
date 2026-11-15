@@ -169,7 +169,7 @@
       "overlapGroupId": null,
       "duplicateOf": [],
       "verdict": "ARCHIVE",
-      "reason": "Unused for 30 days; never seen in your logs.",
+      "reason": "Unused for 30 days; no use recorded in that window.",
       "action": "move"
     },
     {
@@ -285,7 +285,7 @@
       "overlapGroupId": null,
       "duplicateOf": [],
       "verdict": "ARCHIVE",
-      "reason": "Unused for 30 days; never seen in your logs.",
+      "reason": "Unused for 30 days; no use recorded in that window.",
       "action": "move"
     },
     {
@@ -353,7 +353,7 @@
       "overlapGroupId": null,
       "duplicateOf": [],
       "verdict": "ARCHIVE",
-      "reason": "Unused for 30 days; never seen in your logs.",
+      "reason": "Unused for 30 days; no use recorded in that window.",
       "action": "move"
     },
     {
@@ -797,7 +797,7 @@
       "overlapGroupId": null,
       "duplicateOf": [],
       "verdict": "ARCHIVE",
-      "reason": "Unused for 30 days; never seen in your logs. Also flagged: downloads and runs remote code.",
+      "reason": "Unused for 30 days; no use recorded in that window. Also flagged: downloads and runs remote code.",
       "action": "move"
     },
     {
@@ -1016,7 +1016,7 @@
       "overlapGroupId": null,
       "duplicateOf": [],
       "verdict": "ARCHIVE",
-      "reason": "Unused for 30 days; never seen in your logs. Also flagged: hidden unicode characters.",
+      "reason": "Unused for 30 days; no use recorded in that window. Also flagged: hidden unicode characters.",
       "action": "move"
     }
   ],
