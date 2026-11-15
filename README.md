@@ -1,3 +1,7 @@
+[![npm version](https://img.shields.io/npm/v/stackweight)](https://www.npmjs.com/package/stackweight)
+[![CI](https://img.shields.io/github/actions/workflow/status/zaminaa/StackWeight/ci.yml?branch=main)](https://github.com/zaminaa/StackWeight/actions/workflows/ci.yml)
+[![license](https://img.shields.io/github/license/zaminaa/StackWeight)](LICENSE)
+
 # StackWeight
 
 **The bundle-size report for your agent stack.** One command weighs every skill, plugin, command and subagent you've installed across Claude Code, Cursor, Codex and OpenCode, tells you what to keep, and prunes the rest safely.
