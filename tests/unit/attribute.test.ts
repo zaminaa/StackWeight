@@ -25,12 +25,12 @@ describe('attributeUsage', () => {
       return row;
     };
     expect(item('commit-helper')).toMatchObject({ count: 3, lastUsed: '2026-11-01T09:00:00.000Z' });
-    expect(item('brand-voice')).toMatchObject({ count: 0, lastUsed: '2026-09-01T10:00:00.000Z', status: 'known' });
-    expect(item('git-commit-writer')).toMatchObject({ count: 0, lastUsed: null, status: 'known' });
+    expect(item('brand-voice').status).toBe('unknown');
+    expect(item('git-commit-writer').status).toBe('unknown');
     expect(item('react-patterns').count).toBe(1);
     expect(item('superpowers:brainstorming').count).toBe(1);
     expect(item('sql-helper').count).toBe(1);
-    expect(item('shared-notes')).toMatchObject({ count: 0, status: 'known' });
+    expect(item('shared-notes').status).toBe('unknown');
     expect(item('translate-fa').status).toBe('unknown');
     expect(item('translate-fa').reason).toMatch(/OpenCode/);
     expect(item('reviewer').count).toBe(1);

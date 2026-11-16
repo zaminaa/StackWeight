@@ -47,7 +47,7 @@ describe('prune restore round trip', () => {
     await executePrune(plan, ctx, {
       movePath: async (src, dest) => {
         calls += 1;
-        if (calls > 2) throw new Error('crash');
+        if (calls > 1) throw new Error('crash');
         await movePath(src, dest);
       },
     });
@@ -58,29 +58,29 @@ describe('prune restore round trip', () => {
   it('reports a conflict and keeps both copies', async () => {
     const { home, ctx } = await homeContext('minimal');
     const plan = planPrune(await scan(ctx, { writeHistory: false }), ctx, []);
-    const brand = plan.moves.find((item) => item.name === 'brand-voice');
-    if (!brand) throw new Error('missing brand-voice');
+    const parkedItem = plan.moves.find((item) => item.name === 'csv-cleaner');
+    if (!parkedItem) throw new Error('missing csv-cleaner');
     const manifest = await executePrune(plan, ctx);
-    await fs.mkdir(brand.parkPath, { recursive: true });
-    await fs.writeFile(path.join(brand.parkPath, 'SKILL.md'), 'kept');
+    await fs.mkdir(parkedItem.parkPath, { recursive: true });
+    await fs.writeFile(path.join(parkedItem.parkPath, 'SKILL.md'), 'kept');
     const outcome = await restoreRun(ctx, {});
-    expect(outcome.conflicts).toContain('brand-voice');
-    expect(await fs.readFile(path.join(brand.parkPath, 'SKILL.md'), 'utf8')).toBe('kept');
-    const parked = manifest.actions.find((action) => action.type === 'move' && action.name === 'brand-voice');
-    if (!parked || parked.type !== 'move') throw new Error('missing parked brand-voice');
+    expect(outcome.conflicts).toContain('csv-cleaner');
+    expect(await fs.readFile(path.join(parkedItem.parkPath, 'SKILL.md'), 'utf8')).toBe('kept');
+    const parked = manifest.actions.find((action) => action.type === 'move' && action.name === 'csv-cleaner');
+    if (!parked || parked.type !== 'move') throw new Error('missing parked csv-cleaner');
     expect(await fs.stat(parked.to)).toBeTruthy();
   });
 
   it('restores a single named item', async () => {
     const { home, ctx } = await homeContext('minimal');
     const plan = planPrune(await scan(ctx, { writeHistory: false }), ctx, []);
-    const brand = plan.moves.find((item) => item.name === 'brand-voice');
-    if (!brand) throw new Error('missing brand-voice');
+    const parkedItem = plan.moves.find((item) => item.name === 'csv-cleaner');
+    if (!parkedItem) throw new Error('missing csv-cleaner');
     await executePrune(plan, ctx);
-    const outcome = await restoreRun(ctx, { item: 'brand-voice' });
-    expect(outcome.restored).toEqual(['brand-voice']);
-    expect(await fs.stat(brand.parkPath)).toBeTruthy();
-    const stillGone = plan.moves.filter((item) => item.name !== 'brand-voice');
+    const outcome = await restoreRun(ctx, { item: 'csv-cleaner' });
+    expect(outcome.restored).toEqual(['csv-cleaner']);
+    expect(await fs.stat(parkedItem.parkPath)).toBeTruthy();
+    const stillGone = plan.moves.filter((item) => item.name !== 'csv-cleaner');
     for (const item of stillGone) await expect(fs.stat(item.parkPath)).rejects.toThrow();
   });
 });

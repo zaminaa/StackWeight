@@ -71,6 +71,69 @@ function renderSnippet(line: string): string {
   return out.slice(0, 120);
 }
 
+const REGEX_OPEN = new Set(['=', '(', ',', ':', '[', '!', '&', '|', '?', '{', ';']);
+const REGEX_KEYWORDS = new Set(['return', 'typeof', 'case', 'delete', 'void', 'in', 'of', 'new', 'instanceof']);
+
+function isInsideRegexLiteral(line: string, index: number): boolean {
+  let i = 0;
+  while (i < line.length) {
+    if (line[i] !== '/' || !canOpenRegex(line, i)) {
+      i += 1;
+      continue;
+    }
+    const close = regexLiteralEnd(line, i + 1);
+    if (close === null) return false;
+    if (index > i && index < close) return true;
+    i = close + 1;
+    while (i < line.length && /[dgimsuvy]/.test(line[i] ?? '')) i += 1;
+  }
+  return false;
+}
+
+function canOpenRegex(line: string, slash: number): boolean {
+  let j = slash - 1;
+  while (j >= 0 && /\s/.test(line[j] ?? '')) j -= 1;
+  if (j < 0) return true;
+  const ch = line[j] ?? '';
+  if (REGEX_OPEN.has(ch)) return true;
+  if (!/[A-Za-z0-9_$]/.test(ch)) return false;
+  let start = j;
+  while (start >= 0 && /[A-Za-z0-9_$]/.test(line[start] ?? '')) start -= 1;
+  return REGEX_KEYWORDS.has(line.slice(start + 1, j + 1));
+}
+
+function regexLiteralEnd(line: string, start: number): number | null {
+  let i = start;
+  let inClass = false;
+  while (i < line.length) {
+    const ch = line[i] ?? '';
+    if (ch === '\\') {
+      i += 2;
+      continue;
+    }
+    if (inClass) {
+      if (ch === ']') inClass = false;
+      i += 1;
+      continue;
+    }
+    if (ch === '[') {
+      inClass = true;
+      i += 1;
+      continue;
+    }
+    if (ch === '/') return i;
+    i += 1;
+  }
+  return null;
+}
+
+function patternHits(rule: RuleId, pattern: RegExp, line: string): boolean {
+  if (rule !== 'SW003') return pattern.test(line);
+  const match = pattern.exec(line);
+  if (!match) return false;
+  return !isInsideRegexLiteral(line, match.index);
+}
+
 export function scanText(text: string, file: string): SecurityFlag[] {
   const flags: SecurityFlag[] = [];
   const lines = text.split('\n');
@@ -93,7 +156,7 @@ export function scanText(text: string, file: string): SecurityFlag[] {
     const line = lines[n] ?? '';
     for (const rule of RULES) {
       if (flags.length >= 5) break;
-      if (rule.patterns.some((pattern) => pattern.test(line))) {
+      if (rule.patterns.some((pattern) => patternHits(rule.id, pattern, line))) {
         flags.push({ rule: rule.id, title: rule.title, file, line: n + 1, snippet: renderSnippet(line) });
       }
     }

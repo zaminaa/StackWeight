@@ -44,4 +44,44 @@ describe('mineOpencodeUsage', () => {
     expect(usage.events.filter((event) => event.ref.type === 'name' && event.ref.name === 'translate-fa')).toHaveLength(1);
     expect(usage.modelRequests).toBe(2);
   });
+
+  it('mines a v2 database and skips skill rows outside the window', async () => {
+    const home = await tempDir('sw-oc-v2-');
+    const dbPath = path.join(home, '.local', 'share', 'opencode', 'opencode.db');
+    await fs.mkdir(path.dirname(dbPath), { recursive: true });
+    const db = new DatabaseSync(dbPath);
+    db.exec(`
+      CREATE TABLE session_v2 (id TEXT, time_created INTEGER);
+      CREATE TABLE session_message (id TEXT, session_id TEXT, type TEXT, time_created INTEGER, data TEXT);
+      CREATE TABLE session_part (message_id TEXT, session_id TEXT, type TEXT, time_created INTEGER, data TEXT);
+    `);
+    const inside = FIXTURE_NOW.getTime() - 86_400_000;
+    const outside = FIXTURE_NOW.getTime() - 40 * 86_400_000;
+    const skill = (name: string) => JSON.stringify({ type: 'tool', tool: 'skill', state: { input: { name } } });
+    const insertPart = db.prepare('INSERT INTO session_part (message_id, session_id, type, time_created, data) VALUES (?, ?, ?, ?, ?)');
+    insertPart.run('m1', 's1', 'tool', inside, skill('inside-skill'));
+    insertPart.run('m2', 's1', 'tool', outside, skill('outside-skill'));
+    db.prepare('INSERT INTO session_message (id, session_id, type, time_created, data) VALUES (?, ?, ?, ?, ?)').run(
+      'm1', 's1', 'assistant', inside, JSON.stringify({ role: 'assistant' }),
+    );
+    db.close();
+    const ctx = createContext({ home, cwd: home, now: FIXTURE_NOW, env: {}, toolVersion: '0.0.0-test' });
+    const usage = await mineOpencodeUsage(ctx);
+    expect(usage.status).toBe('ok');
+    expect(usage.events.filter((event) => event.ref.type === 'name').map((event) => event.ref.name)).toEqual(['inside-skill']);
+    expect(usage.modelRequests).toBe(1);
+  });
+
+  it('errors when the database has neither schema', async () => {
+    const home = await tempDir('sw-oc-empty-');
+    const dbPath = path.join(home, '.local', 'share', 'opencode', 'opencode.db');
+    await fs.mkdir(path.dirname(dbPath), { recursive: true });
+    const db = new DatabaseSync(dbPath);
+    db.exec('CREATE TABLE nope (id INTEGER)');
+    db.close();
+    const ctx = createContext({ home, cwd: home, now: FIXTURE_NOW, env: {}, toolVersion: '0.0.0-test' });
+    const usage = await mineOpencodeUsage(ctx);
+    expect(usage.status).toBe('error');
+    expect(usage.reason).toMatch(/neither v2/);
+  });
 });

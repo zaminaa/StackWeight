@@ -26,7 +26,7 @@ describe('computeWeights', () => {
     expect(persian).toBeTruthy();
     const weights = computeWeights(shared!);
     expect(weights.weight.cursor ?? 0).toBeGreaterThan((weights.weight.codex ?? 0) - 5);
-    expect(weights.weightTotal).toBe((weights.weight.cursor ?? 0) + (weights.weight.codex ?? 0));
+    expect(weights.weightTotal).toBe((weights.weight.cursor ?? 0) + (weights.weight.codex ?? 0) + (weights.weight.opencode ?? 0));
     expect(computeWeights(persian!).weightTotal).toBeGreaterThan(0);
   });
 });

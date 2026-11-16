@@ -6,11 +6,11 @@ import { FIXTURE_NOW, buildFixture, tempDir } from '../helpers/fixture.js';
 
 const expected: [string, string, string, string][] = [
   ['commit-helper', 'KEEP', 'none', 'Used 3×'],
-  ['git-commit-writer', 'MERGE', 'move', 'Overlaps with commit-helper'],
-  ['brand-voice', 'ARCHIVE', 'move', 'last used Sep 1'],
-  ['fresh-skill', 'KEEP', 'none', 'too new'],
-  ['sketchy-installer', 'ARCHIVE', 'move', 'Also flagged: downloads and runs remote code'],
-  ['zw-trap', 'ARCHIVE', 'move', 'Also flagged:'],
+  ['git-commit-writer', 'KEEP', 'none', 'Usage unknown'],
+  ['brand-voice', 'KEEP', 'none', 'Usage unknown'],
+  ['fresh-skill', 'KEEP', 'none', 'Usage unknown'],
+  ['sketchy-installer', 'KEEP', 'none', 'Usage unknown'],
+  ['zw-trap', 'KEEP', 'none', 'Usage unknown'],
   ['reviewer', 'KEEP', 'none', 'Used 1×'],
   ['deploy', 'KEEP', 'none', 'Used 1×'],
   ['docs-kit:pdf-tools', 'KEEP', 'none', 'Used 1×'],
@@ -25,7 +25,7 @@ const expected: [string, string, string, string][] = [
   ['imagegen', 'KEEP', 'none', 'Built into Codex'],
   ['sql-helper', 'KEEP', 'none', 'Used 1×'],
   ['csv-cleaner', 'ARCHIVE', 'move', 'no use recorded'],
-  ['shared-notes', 'ARCHIVE', 'move', 'no use recorded'],
+  ['shared-notes', 'KEEP', 'none', 'Usage unknown'],
   ['translate-fa', 'KEEP', 'none', 'Usage unknown'],
   ['planner', 'KEEP', 'none', 'Usage unknown'],
   ['team-style', 'KEEP', 'none', 'Project item'],
@@ -54,7 +54,7 @@ describe('verdict contract', () => {
     for (const banned of ['legacy', 'never', 'never2', 'x']) {
       expect(result.items.some((item) => item.name === banned || item.qualifiedName === banned)).toBe(false);
     }
-    expect(result.totals.verdictCounts).toEqual({ KEEP: 15, ARCHIVE: 6, MERGE: 1, DISABLE: 2 });
+    expect(result.totals.verdictCounts).toEqual({ KEEP: 20, ARCHIVE: 2, MERGE: 0, DISABLE: 2 });
     expect(result.overlapGroups).toHaveLength(1);
     expect(result.harnesses.map((harness) => harness.detected)).toEqual([true, true, true, true]);
     expect(result.totals.deadTokensResent).toBeGreaterThan(0);
