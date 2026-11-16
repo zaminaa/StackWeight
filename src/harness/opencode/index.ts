@@ -2,6 +2,7 @@ import path from 'node:path';
 import type { HarnessAdapter } from '../types.js';
 import { SKILL_ROOTS } from '../../discover/roots.js';
 import { exists } from '../../util/fs.js';
+import { opencodePluginItems } from './plugins.js';
 import { mineOpencodeUsage } from './usage.js';
 
 export const opencodeAdapter: HarnessAdapter = {
@@ -19,6 +20,6 @@ export const opencodeAdapter: HarnessAdapter = {
     }
     return false;
   },
-  pluginItems: async () => ({ items: [], notes: [] }),
+  pluginItems: (ctx) => opencodePluginItems(ctx),
   mineUsage: mineOpencodeUsage,
 };

@@ -38,10 +38,22 @@ export const SKILL_ROOTS: RootSpec[] = [
   { id: 'codex-skills-builtin', harness: 'codex', evidence: 'observed', scope: 'builtin', kind: 'skill', layout: 'skill-dirs', resolve: (ctx) => path.join(ctx.home, '.codex', 'skills', '.system') },
   { id: 'codex-agents-skills', harness: 'codex', evidence: 'documented', scope: 'user', kind: 'skill', layout: 'skill-dirs', resolve: (ctx) => path.join(ctx.home, '.agents', 'skills') },
   { id: 'codex-agents-skills-project', harness: 'codex', evidence: 'documented', scope: 'project', kind: 'skill', layout: 'skill-dirs', resolve: (ctx) => project(ctx, '.agents', 'skills') },
-  { id: 'opencode-skill', harness: 'opencode', evidence: 'observed', scope: 'user', kind: 'skill', layout: 'skill-dirs', resolve: (ctx) => path.join(ocRoot(ctx), 'skill') },
-  { id: 'opencode-agent', harness: 'opencode', evidence: 'observed', scope: 'user', kind: 'agent', layout: 'md-files', resolve: (ctx) => path.join(ocRoot(ctx), 'agent') },
-  { id: 'opencode-command', harness: 'opencode', evidence: 'observed', scope: 'user', kind: 'command', layout: 'md-files', resolve: (ctx) => path.join(ocRoot(ctx), 'command') },
-  { id: 'opencode-skill-project', harness: 'opencode', evidence: 'observed', scope: 'project', kind: 'skill', layout: 'skill-dirs', resolve: (ctx) => project(ctx, '.opencode', 'skill') },
+  { id: 'opencode-skills', harness: 'opencode', evidence: 'documented', scope: 'user', kind: 'skill', layout: 'skill-dirs', resolve: (ctx) => path.join(ocRoot(ctx), 'skills') },
+  { id: 'opencode-skills-singular', harness: 'opencode', evidence: 'observed', scope: 'user', kind: 'skill', layout: 'skill-dirs', resolve: (ctx) => path.join(ocRoot(ctx), 'skill') },
+  { id: 'opencode-agents', harness: 'opencode', evidence: 'documented', scope: 'user', kind: 'agent', layout: 'md-files', resolve: (ctx) => path.join(ocRoot(ctx), 'agents') },
+  { id: 'opencode-agents-singular', harness: 'opencode', evidence: 'observed', scope: 'user', kind: 'agent', layout: 'md-files', resolve: (ctx) => path.join(ocRoot(ctx), 'agent') },
+  { id: 'opencode-commands', harness: 'opencode', evidence: 'documented', scope: 'user', kind: 'command', layout: 'md-files', resolve: (ctx) => path.join(ocRoot(ctx), 'commands') },
+  { id: 'opencode-commands-singular', harness: 'opencode', evidence: 'observed', scope: 'user', kind: 'command', layout: 'md-files', resolve: (ctx) => path.join(ocRoot(ctx), 'command') },
+  { id: 'opencode-skills-project', harness: 'opencode', evidence: 'documented', scope: 'project', kind: 'skill', layout: 'skill-dirs', resolve: (ctx) => project(ctx, '.opencode', 'skills') },
+  { id: 'opencode-skills-project-singular', harness: 'opencode', evidence: 'observed', scope: 'project', kind: 'skill', layout: 'skill-dirs', resolve: (ctx) => project(ctx, '.opencode', 'skill') },
+  { id: 'opencode-agents-project', harness: 'opencode', evidence: 'documented', scope: 'project', kind: 'agent', layout: 'md-files', resolve: (ctx) => project(ctx, '.opencode', 'agents') },
+  { id: 'opencode-commands-project', harness: 'opencode', evidence: 'documented', scope: 'project', kind: 'command', layout: 'md-files', resolve: (ctx) => project(ctx, '.opencode', 'commands') },
+  // OpenCode also loads the shared compat dirs — attribute them to opencode too,
+  // so items there get loadedBy: [..., 'opencode'] via the existing merge logic.
+  { id: 'opencode-claude-skills', harness: 'opencode', evidence: 'documented', scope: 'user', kind: 'skill', layout: 'skill-dirs', resolve: (ctx) => path.join(ctx.home, '.claude', 'skills') },
+  { id: 'opencode-claude-skills-project', harness: 'opencode', evidence: 'documented', scope: 'project', kind: 'skill', layout: 'skill-dirs', resolve: (ctx) => project(ctx, '.claude', 'skills') },
+  { id: 'opencode-agents-skills', harness: 'opencode', evidence: 'documented', scope: 'user', kind: 'skill', layout: 'skill-dirs', resolve: (ctx) => path.join(ctx.home, '.agents', 'skills') },
+  { id: 'opencode-agents-skills-project', harness: 'opencode', evidence: 'documented', scope: 'project', kind: 'skill', layout: 'skill-dirs', resolve: (ctx) => project(ctx, '.agents', 'skills') },
 ];
 
 export interface RootDiscovery { items: ScannedItem[]; notes: string[]; }
