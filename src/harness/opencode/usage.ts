@@ -77,8 +77,12 @@ function mineV2(db: Db, ctx: ScanContext, dbPath: string, tables: Set<string>): 
   if (partRows.length === 0 && tables.has('session_message')) {
     const msgTimed = fromPart ? messageTimeSource(db, tables) : timed;
     if (msgTimed) {
+      const dataCol = msgTimed.dataExpr;
+      // Same content gate as mineLegacy/partFilter. Skill-tool rows nest `"tool":"skill"`
+      // and do not always contain a SKILL.md path; path rows match the LIKE.
+      const skillRow = `(${dataCol} LIKE '%SKILL.md%' OR ${dataCol} LIKE '%"tool":"skill"%' OR ${dataCol} LIKE '%"tool": "skill"%')`;
       const rows = db.prepare(
-        `SELECT ${msgTimed.timeExpr} AS time_created, ${msgTimed.dataExpr} AS data FROM ${msgTimed.from} WHERE ${msgTimed.timeExpr} >= ?`,
+        `SELECT ${msgTimed.timeExpr} AS time_created, ${dataCol} AS data FROM ${msgTimed.from} WHERE ${msgTimed.timeExpr} >= ? AND ${skillRow}`,
       ).all(ws) as { time_created: number; data: string }[];
       for (const row of rows) events.push(...eventsFromMessage(row.data, row.time_created));
     }

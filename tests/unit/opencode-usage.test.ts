@@ -96,6 +96,31 @@ describe('mineOpencodeUsage', () => {
     expect(usage.events.filter((event): event is UsageEvent & { ref: { type: 'name'; name: string } } => event.ref.type === 'name').map((event) => event.ref.name)).toEqual(['from-message']);
   });
 
+  it('mines a large unmatched session_message quickly and emits no event', async () => {
+    const home = await tempDir('sw-oc-v2-big-');
+    const dbPath = path.join(home, '.local', 'share', 'opencode', 'opencode.db');
+    await fs.mkdir(path.dirname(dbPath), { recursive: true });
+    const db = new DatabaseSync(dbPath);
+    db.exec(`
+      CREATE TABLE session_message (id TEXT, session_id TEXT, type TEXT, time_created INTEGER, data TEXT);
+      CREATE TABLE session_part (message_id TEXT, session_id TEXT, type TEXT, time_created INTEGER, data TEXT);
+    `);
+    const inside = FIXTURE_NOW.getTime() - 86_400_000;
+    const blob = JSON.stringify({ role: 'user', content: 'x'.repeat(200_000) });
+    expect(blob.length).toBeGreaterThanOrEqual(200_000);
+    expect(blob.includes('SKILL.md')).toBe(false);
+    db.prepare('INSERT INTO session_message (id, session_id, type, time_created, data) VALUES (?, ?, ?, ?, ?)').run(
+      'm1', 's1', 'user', inside, blob,
+    );
+    db.close();
+    const ctx = createContext({ home, cwd: home, now: FIXTURE_NOW, env: {}, toolVersion: '0.0.0-test' });
+    const started = performance.now();
+    const usage = await mineOpencodeUsage(ctx);
+    expect(performance.now() - started).toBeLessThan(5_000);
+    expect(usage.status).toBe('ok');
+    expect(usage.events).toEqual([]);
+  });
+
   it('errors when the database has neither schema', async () => {
     const home = await tempDir('sw-oc-empty-');
     const dbPath = path.join(home, '.local', 'share', 'opencode', 'opencode.db');

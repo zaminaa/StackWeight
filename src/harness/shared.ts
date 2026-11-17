@@ -2,8 +2,11 @@ import type { HarnessId, HarnessUsage, ScanContext } from '../model.js';
 import { displayPath } from '../util/paths.js';
 
 export function extractSkillMdPaths(text: string): string[] {
+  if (!text.includes('SKILL.md')) return [];
   const unescaped = text.replace(/\\\\/g, '/').replace(/\\/g, '/');
-  const matches = unescaped.match(/(?:[A-Za-z]:)?[^\s"'`<>|(){}\[\],;]*\/[^\s"'`<>|(){}\[\],;\/]+\/SKILL\.md/gi) ?? [];
+  // `/` is excluded from the quantified class so a long run cannot backtrack
+  // quadratically. The segment repeats so a real path stays intact, not just the tail.
+  const matches = unescaped.match(/(?:[A-Za-z]:)?(?:[^\s"'`<>|(){}\[\],;\/]*\/)+[^\s"'`<>|(){}\[\],;\/]+\/SKILL\.md/gi) ?? [];
   const seen = new Set<string>();
   const out: string[] = [];
   for (const match of matches) {
