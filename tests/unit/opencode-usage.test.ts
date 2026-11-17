@@ -3,6 +3,7 @@ import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
 import { describe, expect, it } from 'vitest';
 import { createContext } from '../../src/context.js';
+import type { UsageEvent } from '../../src/model.js';
 import { mineOpencodeUsage } from '../../src/harness/opencode/usage.js';
 import { FIXTURE_NOW, buildFixture, tempDir } from '../helpers/fixture.js';
 
@@ -68,8 +69,31 @@ describe('mineOpencodeUsage', () => {
     const ctx = createContext({ home, cwd: home, now: FIXTURE_NOW, env: {}, toolVersion: '0.0.0-test' });
     const usage = await mineOpencodeUsage(ctx);
     expect(usage.status).toBe('ok');
-    expect(usage.events.filter((event) => event.ref.type === 'name').map((event) => event.ref.name)).toEqual(['inside-skill']);
+    expect(usage.events.filter((event): event is UsageEvent & { ref: { type: 'name'; name: string } } => event.ref.type === 'name').map((event) => event.ref.name)).toEqual(['inside-skill']);
     expect(usage.modelRequests).toBe(1);
+  });
+
+  it('mines skill rows from session_message when session_part is empty', async () => {
+    const home = await tempDir('sw-oc-v2-msg-');
+    const dbPath = path.join(home, '.local', 'share', 'opencode', 'opencode.db');
+    await fs.mkdir(path.dirname(dbPath), { recursive: true });
+    const db = new DatabaseSync(dbPath);
+    db.exec(`
+      CREATE TABLE session_message (id TEXT, session_id TEXT, type TEXT, time_created INTEGER, data TEXT);
+      CREATE TABLE session_part (message_id TEXT, session_id TEXT, type TEXT, time_created INTEGER, data TEXT);
+    `);
+    const inside = FIXTURE_NOW.getTime() - 86_400_000;
+    const data = JSON.stringify({
+      content: [{ type: 'tool', tool: 'skill', state: { input: { name: 'from-message' } } }],
+    });
+    db.prepare('INSERT INTO session_message (id, session_id, type, time_created, data) VALUES (?, ?, ?, ?, ?)').run(
+      'm1', 's1', 'user', inside, data,
+    );
+    db.close();
+    const ctx = createContext({ home, cwd: home, now: FIXTURE_NOW, env: {}, toolVersion: '0.0.0-test' });
+    const usage = await mineOpencodeUsage(ctx);
+    expect(usage.status).toBe('ok');
+    expect(usage.events.filter((event): event is UsageEvent & { ref: { type: 'name'; name: string } } => event.ref.type === 'name').map((event) => event.ref.name)).toEqual(['from-message']);
   });
 
   it('errors when the database has neither schema', async () => {

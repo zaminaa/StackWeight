@@ -65,36 +65,48 @@ function mineV2(db: Db, ctx: ScanContext, dbPath: string, tables: Set<string>): 
     return errorUsage('opencode', 'v2 schema without a usable time column; cannot apply the 30-day window');
   }
   const events: UsageEvent[] = [];
-  if (tables.has('session_part')) {
+  const fromPart = timed.from === 'session_part' || timed.from.startsWith('session_part ');
+  let partRows: { time_created: number; data: string }[] = [];
+  if (fromPart) {
     const where = partFilter(columnNames(db, 'session_part'));
-    const parts = db.prepare(
+    partRows = db.prepare(
       `SELECT ${timed.timeExpr} AS time_created, ${timed.dataExpr} AS data FROM ${timed.from} WHERE ${timed.timeExpr} >= ? AND ${where}`,
     ).all(ws) as { time_created: number; data: string }[];
-    for (const row of parts) events.push(...eventsFromPart(row.data, row.time_created));
-  } else if (tables.has('session_message')) {
-    const rows = db.prepare(
-      `SELECT ${timed.timeExpr} AS time_created, ${timed.dataExpr} AS data FROM ${timed.from} WHERE ${timed.timeExpr} >= ?`,
-    ).all(ws) as { time_created: number; data: string }[];
-    for (const row of rows) events.push(...eventsFromMessage(row.data, row.time_created));
+    for (const row of partRows) events.push(...eventsFromPart(row.data, row.time_created));
+  }
+  if (partRows.length === 0 && tables.has('session_message')) {
+    const msgTimed = fromPart ? messageTimeSource(db, tables) : timed;
+    if (msgTimed) {
+      const rows = db.prepare(
+        `SELECT ${msgTimed.timeExpr} AS time_created, ${msgTimed.dataExpr} AS data FROM ${msgTimed.from} WHERE ${msgTimed.timeExpr} >= ?`,
+      ).all(ws) as { time_created: number; data: string }[];
+      for (const row of rows) events.push(...eventsFromMessage(row.data, row.time_created));
+    }
   }
   return okUsage(dbPath, coverageStart(db, tables), countAssistants(db, tables, ws), events);
 }
 
 function timeSource(db: Db, tables: Set<string>): { from: string; timeExpr: string; dataExpr: string } | null {
-  if (tables.has('session_part') && columnNames(db, 'session_part').has('time_created')) {
+  const partEmpty = !tables.has('session_part') || countRows(db, 'session_part') === 0;
+  if (!partEmpty && tables.has('session_part') && columnNames(db, 'session_part').has('time_created')) {
     return { from: 'session_part', timeExpr: 'time_created', dataExpr: 'data' };
   }
-  if (tables.has('session_message') && columnNames(db, 'session_message').has('time_created') && !tables.has('session_part')) {
-    return { from: 'session_message', timeExpr: 'time_created', dataExpr: 'data' };
-  }
-  if (tables.has('session_part') && tables.has('session_v2') && columnNames(db, 'session_v2').has('time_created') && columnNames(db, 'session_part').has('session_id')) {
+  if (!partEmpty && tables.has('session_part') && tables.has('session_v2') && columnNames(db, 'session_v2').has('time_created') && columnNames(db, 'session_part').has('session_id')) {
     return {
       from: 'session_part p JOIN session_v2 s ON s.id = p.session_id',
       timeExpr: 's.time_created',
       dataExpr: 'p.data',
     };
   }
-  if (tables.has('session_message') && tables.has('session_v2') && columnNames(db, 'session_v2').has('time_created') && columnNames(db, 'session_message').has('session_id')) {
+  return messageTimeSource(db, tables);
+}
+
+function messageTimeSource(db: Db, tables: Set<string>): { from: string; timeExpr: string; dataExpr: string } | null {
+  if (!tables.has('session_message')) return null;
+  if (columnNames(db, 'session_message').has('time_created')) {
+    return { from: 'session_message', timeExpr: 'time_created', dataExpr: 'data' };
+  }
+  if (tables.has('session_v2') && columnNames(db, 'session_v2').has('time_created') && columnNames(db, 'session_message').has('session_id')) {
     return {
       from: 'session_message m JOIN session_v2 s ON s.id = m.session_id',
       timeExpr: 's.time_created',
