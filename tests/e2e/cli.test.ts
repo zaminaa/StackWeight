@@ -1,10 +1,12 @@
 import { spawnSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { buildFixture, readTreeHashes, tempDir } from '../helpers/fixture.js';
 
 const root = fileURLToPath(new URL('../..', import.meta.url));
+const pkgVersion = (JSON.parse(readFileSync(path.join(root, 'package.json'), 'utf8')) as { version: string }).version;
 
 function run(args: string[], home: string) {
   return spawnSync(process.execPath, [path.join(root, 'bin', 'stackweight.js'), ...args], {
@@ -19,7 +21,7 @@ describe('cli e2e', () => {
     const home = await buildFixture('minimal', await tempDir('sw-cli-'));
     const version = run(['--version'], home);
     expect(version.status).toBe(0);
-    expect(version.stdout).toBe('0.1.0\n');
+    expect(version.stdout).toBe(`${pkgVersion}\n`);
 
     const scan = run(['--home', home, '--no-history'], home);
     expect(scan.status).toBe(0);

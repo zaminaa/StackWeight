@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { main } from '../../src/cli.js';
 
@@ -14,6 +15,7 @@ describe('cli', () => {
     });
     const code = await main(['--version']);
     expect(code).toBe(0);
-    expect(writes.join('')).toMatch(/^0\.1\.0\n$/);
+    const pkg = JSON.parse(readFileSync(new URL('../../package.json', import.meta.url), 'utf8')) as { version: string };
+    expect(writes.join('')).toBe(`${pkg.version}\n`);
   });
 });

@@ -6,6 +6,7 @@ import { describe, expect, it } from 'vitest';
 import { buildFixture, tempDir } from '../helpers/fixture.js';
 
 const root = fileURLToPath(new URL('../..', import.meta.url));
+const pkgVersion = (JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8')) as { version: string }).version;
 
 function npm(args: string[], cwd: string) {
   const bin = process.platform === 'win32' ? 'npm.cmd' : 'npm';
@@ -27,7 +28,7 @@ describe('npm pack', () => {
       return;
     }
     const version = npm(['exec', 'stackweight', '--', '--version'], app);
-    expect(version.stdout.trim()).toBe('0.1.0');
+    expect(version.stdout.trim()).toBe(pkgVersion);
     const home = await buildFixture('minimal', await tempDir('sw-pack-home-'));
     const scan = npm(['exec', 'stackweight', '--', '--home', home, '--no-history'], app);
     expect(scan.status, scan.stderr).toBe(0);
