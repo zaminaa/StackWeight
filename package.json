@@ -1,6 +1,6 @@
 {
   "name": "stackweight",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "The bundle-size report for your agent stack: weigh every skill and plugin across Claude Code, Cursor, Codex and OpenCode, see what's dead, prune it safely.",
   "type": "module",
   "bin": {
